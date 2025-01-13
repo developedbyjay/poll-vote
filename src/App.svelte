@@ -1,16 +1,26 @@
 <script>
-  import Footer from "./components/Footer.svelte";
   import Header from "./components/Header.svelte";
+  import Tabs from "./shared/Tabs.svelte";
+  import CreatePollForm from "./components/CreatePollForm.svelte";
+  import Footer from "./components/Footer.svelte";
+
+  // tabs
+  let items = ["Current Polls", "Add New Poll"];
+  let activeItem = "Current Polls";
+
+  function handleToggleTabs(e) {
+    activeItem = e.detail;
+  }
 </script>
 
 <Header />
 <main>
-
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit delectus culpa
-    consequatur, necessitatibus commodi libero, labore vel natus doloribus
-    deleniti error repudiandae perspiciatis laborum quisquam, inventore velit
-    quidem nihil rerum?
-
+  <Tabs {activeItem} {items} on:addTab={handleToggleTabs} />
+  {#if activeItem === "Current Polls"}
+    <h1>Current Polls</h1>
+  {:else}
+    <CreatePollForm />
+  {/if}
 </main>
 <Footer />
 
