@@ -4,6 +4,7 @@
   import CreatePollForm from "./components/CreatePollForm.svelte";
   import Pollist from "./components/Poll-list.svelte";
   import Footer from "./components/Footer.svelte";
+  
 
   // tabs
   let items = ["Current Polls", "Add New Poll"];
@@ -18,16 +19,7 @@
     activeItem = "Current Polls";
   }
 
-  let polls = [
-    {
-      id: 1,
-      question: "Python or Javascript",
-      answerA: "Python",
-      answerB: "Javascript",
-      votesA: 9,
-      votesB: 15,
-    },
-  ];
+  
 
   function handleVote(e) {
     const { option, id } = e.detail;
