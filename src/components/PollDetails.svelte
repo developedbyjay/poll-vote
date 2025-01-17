@@ -1,10 +1,9 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 
 <script>
-  import { createEventDispatcher } from "svelte";
+  import PollStore from "../stores/PollStore";
   import Card from "../shared/Card.svelte";
-
-  const dispatch = createEventDispatcher();
+  import Button from "../shared/Button.svelte";
 
   export let poll;
 
@@ -15,8 +14,25 @@
 
   $: percentB = Math.floor((100 / totalVotes) * poll.votesB);
 
+  function handleDelete(id) {
+    PollStore.update((polls) => {
+      return polls.filter((p) => p.id !== id)
+    });
+  }
+
   function handleVote(option, id) {
-    dispatch("vote", { option, id });
+    PollStore.update((polls) => {
+      return polls.map((poll) => {
+        if (poll.id === id) {
+          if (option === "a") {
+            poll.votesA++;
+          } else {
+            poll.votesB++;
+          }
+        }
+        return poll;
+      });
+    });
   }
 </script>
 
@@ -31,6 +47,9 @@
     <div on:click={() => handleVote("b", poll.id)} class="answer">
       <div style="width: {percentB}%" class="percent percent-b"></div>
       <span>{poll.answerB} ({poll.votesB})</span>
+    </div>
+    <div class="delete">
+      <Button flat={true} on:click={() => handleDelete(poll.id)}>Delete</Button>
     </div>
   </div>
 </Card>
@@ -75,5 +94,9 @@
   .percent-b {
     border-left: 4px solid green;
     background-color: rgba(69, 196, 150, 0.2);
+  }
+
+  .delete {
+    text-align: center;
   }
 </style>

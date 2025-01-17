@@ -4,7 +4,6 @@
   import CreatePollForm from "./components/CreatePollForm.svelte";
   import Pollist from "./components/Poll-list.svelte";
   import Footer from "./components/Footer.svelte";
-  
 
   // tabs
   let items = ["Current Polls", "Add New Poll"];
@@ -15,32 +14,16 @@
   }
 
   function handleAddPoll(e) {
-    polls = [...polls, e.detail];
     activeItem = "Current Polls";
   }
 
-  
-
-  function handleVote(e) {
-    const { option, id } = e.detail;
-    polls = polls.map((poll) => {
-      if (poll.id === id) {
-        if (option === "a") {
-          poll.votesA++;
-        } else {
-          poll.votesB++;
-        }
-      }
-      return poll;
-    });
-  }
 </script>
 
 <Header />
 <main>
   <Tabs {activeItem} {items} on:addTab={handleToggleTabs} />
   {#if activeItem === "Current Polls"}
-    <Pollist {polls} on:vote={handleVote} />
+    <Pollist/>
   {:else}
     <CreatePollForm on:newPoll={handleAddPoll} />
   {/if}

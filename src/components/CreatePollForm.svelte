@@ -1,12 +1,15 @@
 <script>
+  import PollStore from "../stores/PollStore";
   import Button from "../shared/Button.svelte";
   import { createEventDispatcher } from "svelte";
   import Card from "../shared/Card.svelte";
-  const dispatch = createEventDispatcher();
+
   let fields = { question: "", answerA: "", answerB: "" };
   let errors = { question: "", answerA: "", answerB: "" };
   let valid = false;
 
+  const dispatch = createEventDispatcher();
+  
   function submitHandler() {
     valid = true;
     if (fields.question.trim().length < 5) {
@@ -30,12 +33,13 @@
     }
 
     if (valid) {
-      dispatch("newPoll", {
-        id: Math.random(),
-        votesA: 0,
-        votesB: 0,
-        ...fields,
+      PollStore.update((currentPolls) => {
+        return [
+          { id: Math.random(), votesA: 0, votesB: 0, ...fields },
+          ...currentPolls,
+        ];
       });
+      dispatch("newPoll");
     }
   }
 </script>

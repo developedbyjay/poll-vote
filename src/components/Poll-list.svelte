@@ -1,11 +1,32 @@
 <script>
+  // import { onDestroy, onMount } from "svelte";
+  import PollStore from "../stores/PollStore";
   import PollDetails from "./PollDetails.svelte";
-  export let polls = [];
+
+  //  Old way of doing it
+
+  // export let polls = [];
+  // const unsub = PollStore.subscribe((data) => {
+  //   polls = data;
+  // });
+
+  // onMount(() => {
+  //   PollStore.fetchPolls();
+  // });
+
+  // onDestroy(() => {
+  //   unsub.unsubscribe();
+  // });
 </script>
 
 <div class="poll-list">
-  {#each polls as poll (poll.id)}
-    <PollDetails {poll} on:vote />
+  {#each $PollStore as poll (poll.id)}
+  dsjds
+    {#if poll}
+      <PollDetails {poll} on:vote />
+    {:else} 
+      <p>You can start adding new polls, don't sleep on it.</p>
+    {/if}
   {/each}
 </div>
 
