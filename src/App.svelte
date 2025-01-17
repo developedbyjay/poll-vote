@@ -9,6 +9,8 @@
   let items = ["Current Polls", "Add New Poll"];
   let activeItem = "Current Polls";
 
+
+
   function handleToggleTabs(e) {
     activeItem = e.detail;
   }
@@ -16,14 +18,13 @@
   function handleAddPoll(e) {
     activeItem = "Current Polls";
   }
-
 </script>
 
 <Header />
 <main>
   <Tabs {activeItem} {items} on:addTab={handleToggleTabs} />
   {#if activeItem === "Current Polls"}
-    <Pollist/>
+    <Pollist />
   {:else}
     <CreatePollForm on:newPoll={handleAddPoll} />
   {/if}
